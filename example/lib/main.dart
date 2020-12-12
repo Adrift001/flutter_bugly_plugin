@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bugly_plugin/flutter_bugly_plugin.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterBuglyPlugin.init(appIdAndroid: "d7ee5aca68", appIdiOS: "171b26a5e3");
   runApp(MyApp());
 }
 
@@ -20,6 +22,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    FlutterBuglyPlugin.setUserIdentifier(userIdentifier: "17600695209");
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -50,7 +53,21 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: GestureDetector(
+            onTap: () {
+              FlutterBuglyPlugin.reportException(exceptionName: "网络错误", reason: "原因原因原因原因原因原因原因原因", userInfo: {
+                "abc": "abc",
+                "def": 123,
+                "ghi": true
+              });
+            },
+            child: Container(
+              child: Text('Running on: $_platformVersion\n'),
+              width: 200,
+              height: 200,
+              color: Colors.red,
+            ),
+          ),
         ),
       ),
     );
