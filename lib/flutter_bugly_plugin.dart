@@ -2,9 +2,15 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bugly_plugin/bugly_options.dart';
+
+typedef AppRunner = FutureOr<void> Function();
+typedef BuglyOptionsConfiguration = FutureOr<void> Function(BuglyOptions);
 
 class FlutterBuglyPlugin {
+
   static const MethodChannel _channel =
       const MethodChannel('flutter_bugly_plugin');
 
@@ -14,32 +20,55 @@ class FlutterBuglyPlugin {
   }
 
   /// 初始化
-  static void init({@required String appIdAndroid, @required String appIdiOS}) {
+  static Future<void> init({@required String appIdAndroid, @required String appIdiOS}) async {
+
     assert(appIdAndroid != null);
     assert(appIdiOS != null);
-    _channel.invokeMethod("init", {"appIdAndroid": appIdAndroid, "appIdiOS": appIdiOS});
+
+    Function originalOnError = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails details) async {
+      await reportException(exceptionName: details.library, reason: details.exceptionAsString());
+      originalOnError();
+    };
+
+    await _channel.invokeMethod("init", {
+      "appIdAndroid": appIdAndroid,
+      "appIdiOS": appIdiOS
+    });
   }
 
   /// 设置设置用户标识
   static void setUserIdentifier({@required String userIdentifier}) {
-    if(userIdentifier == null || userIdentifier.isEmpty) {
+    if (userIdentifier == null || userIdentifier.isEmpty) {
       return;
     }
-    _channel.invokeMethod("setUserIdentifier", {"userIdentifier": userIdentifier});
+    _channel
+        .invokeMethod("setUserIdentifier", {"userIdentifier": userIdentifier});
   }
 
   /// 设置标签, 标签ID，可在网站生成
   static void setTag({@required int tag}) {
-    if(tag < 0) {
+    if (tag < 0) {
       return;
     }
     _channel.invokeMethod("setTag", {"tag": tag});
   }
 
-  static void reportException({@required String exceptionName, String reason, Map<String, dynamic> userInfo}) {
-    if(exceptionName == null || exceptionName.isEmpty) {
+  /// 上报错误信息
+  /// exceptionName 错误信息名称
+  /// 错误原因
+  /// 需要携带的其他数据
+  static Future<void> reportException(
+      {@required String exceptionName,
+      String reason,
+      Map<String, dynamic> userInfo}) async {
+    if (exceptionName == null || exceptionName.isEmpty) {
       return;
     }
-    _channel.invokeMethod("reportException", {"exceptionName": exceptionName, "reason": reason, "userInfo": userInfo});
+    await _channel.invokeMethod("reportException", {
+      "exceptionName": exceptionName,
+      "reason": reason,
+      "userInfo": userInfo
+    });
   }
 }
