@@ -1,0 +1,29 @@
+PODS:
+  - Bugly (2.5.71)
+  - Flutter (1.0.0)
+  - flutter_bugly_plugin (0.0.1):
+    - Bugly
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_bugly_plugin (from `.symlinks/plugins/flutter_bugly_plugin/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Bugly
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_bugly_plugin:
+    :path: ".symlinks/plugins/flutter_bugly_plugin/ios"
+
+SPEC CHECKSUMS:
+  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_bugly_plugin: d2db6d6641938269fa538575126e8ff530ee02c7
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.0

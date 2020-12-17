@@ -17,17 +17,21 @@ public class SwiftFlutterBuglyPlugin: NSObject, FlutterPlugin {
     case "init":
         let appId = dic["appIdiOS"] as? String ?? ""
         Bugly.start(withAppId: appId)
+        result("")
     case "setUserIdentifier":
         let userIdentifier = dic["userIdentifier"] as? String ?? ""
         Bugly.setUserIdentifier(userIdentifier)
+        result("")
     case "setTag":
         let tag = dic["tag"] as? NSNumber ?? NSNumber(value: 0)
         Bugly.setTag(tag.uintValue)
+        result("")
     case "reportException":
         let exceptionName = dic["exceptionName"] as? String ?? ""
         let reason = dic["reason"] as? String ?? ""
         let userInfo = dic["userInfo"] as? [AnyHashable : Any] ?? [:]
         Bugly.report(NSException(name: NSExceptionName(rawValue: exceptionName), reason: reason, userInfo: userInfo))
+        result("")
     default:
         result("iOS " + UIDevice.current.systemVersion)
     }

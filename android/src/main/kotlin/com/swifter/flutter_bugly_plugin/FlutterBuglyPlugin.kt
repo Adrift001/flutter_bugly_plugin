@@ -32,20 +32,24 @@ class FlutterBuglyPlugin: FlutterPlugin, MethodCallHandler {
       "init" -> {
         val appId = dic["appIdAndroid"] as? String ?: ""
         CrashReport.initCrashReport(context, appId, true)
+        result.success("")
       }
       "setUserIdentifier" -> {
         val userIdentifier = dic["userIdentifier"] as? String ?: ""
         CrashReport.setUserId(context, userIdentifier)
+        result.success("")
       }
       "setTag" -> {
         val tag = dic["tag"] as? Int ?: 0
         CrashReport.setUserSceneTag(context, tag)
+        result.success("")
       }
       "reportException" -> {
         val exceptionName = dic["exceptionName"] as? String ?: ""
         val reason = dic["reason"] as? String ?: ""
         val userInfo = dic["userInfo"] as? Map<String, String> ?: mapOf()
         CrashReport.postException(8, exceptionName, reason, "", userInfo)
+        result.success("")
       }
       "getPlatformVersion" -> {
         result.success("Android ${android.os.Build.VERSION.RELEASE}")
