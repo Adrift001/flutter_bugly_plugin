@@ -4,10 +4,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bugly_plugin/bugly_options.dart';
-
-typedef AppRunner = FutureOr<void> Function();
-typedef BuglyOptionsConfiguration = FutureOr<void> Function(BuglyOptions);
 
 class FlutterBuglyPlugin {
 
@@ -24,12 +20,6 @@ class FlutterBuglyPlugin {
 
     assert(appIdAndroid != null);
     assert(appIdiOS != null);
-
-    // Function originalOnError = FlutterError.onError;
-    // FlutterError.onError = (FlutterErrorDetails details) async {
-    //   await reportException(exceptionName: details.library, reason: details.exceptionAsString());
-    //   originalOnError();
-    // };
 
     await _channel.invokeMethod("init", {
       "appIdAndroid": appIdAndroid,
