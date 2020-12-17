@@ -25,11 +25,11 @@ class FlutterBuglyPlugin {
     assert(appIdAndroid != null);
     assert(appIdiOS != null);
 
-    Function originalOnError = FlutterError.onError;
-    FlutterError.onError = (FlutterErrorDetails details) async {
-      await reportException(exceptionName: details.library, reason: details.exceptionAsString());
-      originalOnError();
-    };
+    // Function originalOnError = FlutterError.onError;
+    // FlutterError.onError = (FlutterErrorDetails details) async {
+    //   await reportException(exceptionName: details.library, reason: details.exceptionAsString());
+    //   originalOnError();
+    // };
 
     await _channel.invokeMethod("init", {
       "appIdAndroid": appIdAndroid,
