@@ -32,7 +32,7 @@ public class SwiftFlutterBuglyPlugin: NSObject, FlutterPlugin {
     case "reportException":
         let exceptionName = dic["exceptionName"] as? String ?? ""
         let reason = dic["reason"] as? String ?? ""
-        let userInfo = dic["userInfo"] as? [AnyHashable : Any] ?? [:]
+        let userInfo = dic["userInfo"] as? [String : String] ?? [:]
         Bugly.report(NSException(name: NSExceptionName(rawValue: exceptionName), reason: reason, userInfo: userInfo))
         result("")
     default:

@@ -52,7 +52,7 @@ class FlutterBuglyPlugin {
   static Future<void> reportException(
       {@required String exceptionName,
       String reason,
-      Map<String, dynamic> userInfo}) async {
+      Map<String, String> userInfo}) async {
     if (exceptionName == null || exceptionName.isEmpty) {
       return;
     }
