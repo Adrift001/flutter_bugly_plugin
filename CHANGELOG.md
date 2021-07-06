@@ -13,3 +13,7 @@
 ## 0.0.4
 
 * delete unuse file
+
+## 0.0.5
+
+* add debug mode

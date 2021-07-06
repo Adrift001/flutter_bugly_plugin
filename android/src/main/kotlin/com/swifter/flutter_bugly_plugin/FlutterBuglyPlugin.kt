@@ -31,7 +31,8 @@ class FlutterBuglyPlugin: FlutterPlugin, MethodCallHandler {
     when(call.method) {
       "init" -> {
         val appId = dic["appIdAndroid"] as? String ?: ""
-        CrashReport.initCrashReport(context, appId, true)
+        val debugMode = dic["debugMode"] as? Boolean ?: false
+        CrashReport.initCrashReport(context, appId, debugMode)
         result.success("")
       }
       "setUserIdentifier" -> {

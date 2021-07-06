@@ -1,10 +1,10 @@
 name: flutter_bugly_plugin
 description: flutter_bugly_plugin
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/Adrift001/flutter_bugly_plugin
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: '>=2.10.0 <3.0.0'
   flutter: ">=1.20.0"
 
 dependencies:

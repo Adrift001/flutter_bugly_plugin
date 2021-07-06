@@ -16,7 +16,10 @@ public class SwiftFlutterBuglyPlugin: NSObject, FlutterPlugin {
     switch call.method {
     case "init":
         let appId = dic["appIdiOS"] as? String ?? ""
-        Bugly.start(withAppId: appId)
+        let debugMode = dic["debugMode"] as? NSNumber ?? NSNumber(value: false)
+        let config = BuglyConfig()
+        config.debugMode = debugMode.boolValue
+        Bugly.start(withAppId: appId, config: config)
         result("")
     case "setUserIdentifier":
         let userIdentifier = dic["userIdentifier"] as? String ?? ""

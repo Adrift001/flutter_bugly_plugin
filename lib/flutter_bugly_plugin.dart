@@ -16,14 +16,15 @@ class FlutterBuglyPlugin {
   }
 
   /// 初始化
-  static Future<void> init({@required String appIdAndroid, @required String appIdiOS}) async {
+  static Future<void> init({@required String appIdAndroid, @required String appIdiOS, bool debugMode}) async {
 
     assert(appIdAndroid != null);
     assert(appIdiOS != null);
 
     await _channel.invokeMethod("init", {
       "appIdAndroid": appIdAndroid,
-      "appIdiOS": appIdiOS
+      "appIdiOS": appIdiOS,
+      "debugMode": debugMode
     });
   }
 

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_bugly_plugin/flutter_bugly_plugin.dart';
+
 void main() {
   runZonedGuarded(() {
     runApp(MyApp());
   }, (error, stackTrace) {
     print('runZonedGuarded: Caught error in my root zone.');
-    FlutterBuglyPlugin.reportException(exceptionName: error.toString(), reason: stackTrace.toString());
+    FlutterBuglyPlugin.reportException(
+        exceptionName: error.toString(), reason: stackTrace.toString());
   });
 }
 
@@ -19,7 +21,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -43,17 +44,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initBugly() async {
-    FlutterBuglyPlugin.init(appIdAndroid: "d7ee5aca68", appIdiOS: "171b26a5e3");
+    FlutterBuglyPlugin.init(
+        appIdAndroid: "d7ee5aca68", appIdiOS: "171b26a5e3",);
     Function originalOnError = FlutterError.onError;
     FlutterError.onError = (FlutterErrorDetails details) async {
-      await FlutterBuglyPlugin.reportException(exceptionName: details.library, reason: details.exceptionAsString());
+      await FlutterBuglyPlugin.reportException(
+          exceptionName: details.library, reason: details.exceptionAsString());
       originalOnError();
     };
   }
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -78,11 +80,14 @@ class _MyAppState extends State<MyApp> {
                     elevation: 1.0,
                     onPressed: () async {
                       foo() async {
-                        throw new StateError('This is an async Dart exception.');
+                        throw new StateError(
+                            'This is an async Dart exception.');
                       }
+
                       bar() async {
                         await foo();
                       }
+
                       await bar();
                     },
                   ),
@@ -90,7 +95,8 @@ class _MyAppState extends State<MyApp> {
                     child: new Text('Java exception'),
                     elevation: 1.0,
                     onPressed: () async {
-                      final channel = const MethodChannel('crashy-custom-channel');
+                      final channel =
+                          const MethodChannel('crashy-custom-channel');
                       await channel.invokeMethod('blah');
                     },
                   ),
