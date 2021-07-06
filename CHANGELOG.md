@@ -17,3 +17,7 @@
 ## 0.0.5
 
 * add debug mode
+
+## 0.0.6
+
+* nativecrashreport
