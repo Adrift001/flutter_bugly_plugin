@@ -16,7 +16,7 @@ class FlutterBuglyPlugin {
   }
 
   /// 初始化
-  static Future<void> init({@required String appIdAndroid, @required String appIdiOS, bool debugMode}) async {
+  static Future<void> init({required String appIdAndroid, required String appIdiOS, bool debugMode = false}) async {
 
     assert(appIdAndroid != null);
     assert(appIdiOS != null);
@@ -29,8 +29,8 @@ class FlutterBuglyPlugin {
   }
 
   /// 设置设置用户标识
-  static void setUserIdentifier({@required String userIdentifier}) {
-    if (userIdentifier == null || userIdentifier.isEmpty) {
+  static void setUserIdentifier({required String userIdentifier}) {
+    if (userIdentifier.isEmpty) {
       return;
     }
     _channel
@@ -38,7 +38,7 @@ class FlutterBuglyPlugin {
   }
 
   /// 设置标签, 标签ID，可在网站生成
-  static void setTag({@required int tag}) {
+  static void setTag({required int tag}) {
     if (tag < 0) {
       return;
     }
@@ -50,16 +50,16 @@ class FlutterBuglyPlugin {
   /// 错误原因
   /// 需要携带的其他数据
   static Future<void> reportException(
-      {@required String exceptionName,
-      String reason,
-      Map<String, String> userInfo}) async {
-    if (exceptionName == null || exceptionName.isEmpty) {
+      {required String exceptionName,
+      String reason = '',
+      Map<String, String>? userInfo}) async {
+    if (exceptionName.isEmpty) {
       return;
     }
     await _channel.invokeMethod("reportException", {
       "exceptionName": exceptionName,
       "reason": reason,
-      "userInfo": userInfo
+      "userInfo": userInfo ?? {}
     });
   }
 }

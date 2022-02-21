@@ -25,3 +25,6 @@
 ## 0.0.7
 
 * change type
+
+## 0.0.8
+* null safety
