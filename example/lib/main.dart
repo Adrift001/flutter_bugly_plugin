@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -46,11 +47,18 @@ class _MyAppState extends State<MyApp> {
   Future<void> initBugly() async {
     FlutterBuglyPlugin.init(
         appIdAndroid: "d7ee5aca68", appIdiOS: "171b26a5e3",);
-    Function originalOnError = FlutterError.onError;
-    FlutterError.onError = (FlutterErrorDetails details) async {
-      await FlutterBuglyPlugin.reportException(
-          exceptionName: details.library, reason: details.exceptionAsString());
-      originalOnError();
+    final onError = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails details) {
+      onError?.call(details);
+      if (kReleaseMode) {
+        FlutterBuglyPlugin.reportException(exceptionName: details.library ?? '', reason: details.exceptionAsString());
+      }
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      if (kReleaseMode) {
+        FlutterBuglyPlugin.reportException(exceptionName: error.toString(), reason: stack.toString());
+      }
+      return true;
     };
   }
 
@@ -68,16 +76,14 @@ class _MyAppState extends State<MyApp> {
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new RaisedButton(
+                  new TextButton(
                     child: new Text('Dart exception'),
-                    elevation: 1.0,
                     onPressed: () {
                       throw new StateError('This is a Dart exception.');
                     },
                   ),
-                  new RaisedButton(
+                  new TextButton(
                     child: new Text('async Dart exception'),
-                    elevation: 1.0,
                     onPressed: () async {
                       foo() async {
                         throw new StateError(
@@ -91,9 +97,8 @@ class _MyAppState extends State<MyApp> {
                       await bar();
                     },
                   ),
-                  new RaisedButton(
+                  new TextButton(
                     child: new Text('Java exception'),
-                    elevation: 1.0,
                     onPressed: () async {
                       final channel =
                           const MethodChannel('crashy-custom-channel');

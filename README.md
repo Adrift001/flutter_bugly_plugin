@@ -13,12 +13,6 @@ flutter_bugly_plugin
 ```
 ### iOS不需要
 
-## 安装
-
-```
-flutter_bugly_plugin: ^0.0.7
-```
-
 ## 初始化看Example, 找合适的位置做初始化
 
 ## 上传错误

@@ -1,8 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class FlutterBuglyPlugin {
@@ -17,10 +13,6 @@ class FlutterBuglyPlugin {
 
   /// 初始化
   static Future<void> init({required String appIdAndroid, required String appIdiOS, bool debugMode = false}) async {
-
-    assert(appIdAndroid != null);
-    assert(appIdiOS != null);
-
     await _channel.invokeMethod("init", {
       "appIdAndroid": appIdAndroid,
       "appIdiOS": appIdiOS,
